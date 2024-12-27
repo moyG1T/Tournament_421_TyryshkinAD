@@ -1,17 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Microsoft.Extensions.DependencyInjection;
+using System;
 using System.Windows;
 
 namespace Tournament_421_TyryshkinAD
 {
-    /// <summary>
-    /// Логика взаимодействия для App.xaml
-    /// </summary>
     public partial class App : Application
     {
+        private readonly IServiceProvider _provider;
+
+        public App()
+        {
+            var services = new ServiceCollection();
+            
+            _provider = services.BuildServiceProvider();
+        }
+
+        protected override void OnStartup(StartupEventArgs e)
+        {
+
+
+            base.OnStartup(e);
+        }
     }
 }
