@@ -6,6 +6,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using Tournament_421_TyryshkinAD.Data;
 using Tournament_421_TyryshkinAD.Domain.Commands;
+using Tournament_421_TyryshkinAD.Domain.IServices;
 using Tournament_421_TyryshkinAD.Domain.Utilities;
 using Tournament_421_TyryshkinAD.Properties;
 
@@ -34,9 +35,11 @@ namespace Tournament_421_TyryshkinAD.ViewModels
         public bool LoginHidden => !IsLogged;
 
         public ICommand LoginCommand { get; }
+        public ICommand CreateTeamCommand { get; }
 
-        public PlayerViewModel(DbEntities entities)
+        public PlayerViewModel(INavService createTeam, DbEntities entities)
         {
+            CreateTeamCommand = new NavCommand(createTeam);
             LoginCommand = new RelayAsyncCommand(LoginAsync);
 
             _entities = entities;

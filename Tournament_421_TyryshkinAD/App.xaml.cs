@@ -33,7 +33,11 @@ namespace Tournament_421_TyryshkinAD
 
             services.AddTransient<PlayerViewModel>(p =>
             {
-                return new PlayerViewModel(p.GetRequiredService<DbEntities>());
+                return new PlayerViewModel(CreateTeamFactory(p), p.GetRequiredService<DbEntities>());
+            });
+            services.AddTransient<CreateTeamViewModel>(p =>
+            {
+                return new CreateTeamViewModel(p.GetRequiredService<DbEntities>());
             });
 
             _provider = services.BuildServiceProvider();
@@ -52,6 +56,10 @@ namespace Tournament_421_TyryshkinAD
         protected MainNavService PlayerFactory(IServiceProvider p)
         {
             return new MainNavService(p.GetRequiredService<MainContext>(), p.GetRequiredService<PlayerViewModel>);
+        }
+        protected MainNavService CreateTeamFactory(IServiceProvider p)
+        {
+            return new MainNavService(p.GetRequiredService<MainContext>(), p.GetRequiredService<CreateTeamViewModel>);
         }
         protected MainNavService BackOnlyFactory(IServiceProvider p)
         {

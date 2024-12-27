@@ -1,0 +1,45 @@
+﻿<UserControl x:Class="Tournament_421_TyryshkinAD.Views.CreateTeamView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Tournament_421_TyryshkinAD.Views" xmlns:viewmodels="clr-namespace:Tournament_421_TyryshkinAD.ViewModels" d:DataContext="{d:DesignInstance Type=viewmodels:CreateTeamViewModel}"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <StackPanel Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <TextBlock Text="Название"/>
+                <TextBox Text="{Binding Title, UpdateSourceTrigger=PropertyChanged}"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0 10">
+                <TextBlock Text="Выбор игрока"/>
+                <ComboBox IsEditable="True"
+                          DisplayMemberPath="Nickname"
+                          SelectedItem="{Binding SelectedPlayer}"
+                          ItemsSource="{Binding Players}"/>
+            </StackPanel>
+
+            <Button Content="Выбрать игрока" Command="{Binding AddPlayerCommand}" HorizontalAlignment="Center"/>
+
+            <ItemsControl ItemsSource="{Binding SelectedPlayers}" Margin="10 0">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="200"/>
+                                <ColumnDefinition Width="50"/>
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock Text="{Binding Player.Nickname}"/>
+                            <Button Content="Убрать"
+                                    Command="{Binding DataContext.RemovePlayerCommand,
+                                    RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                                    CommandParameter="{Binding}"/>
+                        </Grid>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </StackPanel>
+    </Grid>
+</UserControl>

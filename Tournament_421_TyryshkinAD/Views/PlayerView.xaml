@@ -37,7 +37,7 @@
                        Visibility="{Binding IsLogged, Converter={StaticResource IsLoggedConverter}}" HorizontalAlignment="Center"/>
             
             <StackPanel Visibility="{Binding IsLogged, Converter={StaticResource IsLoggedConverter}}" Orientation="Horizontal">
-                <Button Content="Создать команду"/>
+                <Button Command="{Binding CreateTeamCommand}" Content="Создать команду"/>
                 <Button Content="Выбрать турнир" Margin="10 0"/>
             </StackPanel>
         </StackPanel>
