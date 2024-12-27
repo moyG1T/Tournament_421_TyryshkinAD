@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Remoting.Contexts;
 using System.Text;
 using System.Threading.Tasks;
 using Tournament_421_TyryshkinAD.Domain.Contexts;
@@ -13,6 +14,11 @@ namespace Tournament_421_TyryshkinAD.Domain.Services
     {
         private readonly MainContext _context;
         private readonly Func<ViewModel> _func;
+
+        public MainNavService(MainContext context)
+        {
+            _context = context;
+        }
 
         public MainNavService(MainContext context, Func<ViewModel> func)
         {

@@ -4,12 +4,31 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Tournament_421_TyryshkinAD"
+        xmlns:viewmodels="clr-namespace:Tournament_421_TyryshkinAD.ViewModels" 
+        xmlns:views="clr-namespace:Tournament_421_TyryshkinAD.Views"
+        d:DataContext="{d:DesignInstance Type=viewmodels:MainViewModel}"
         mc:Ignorable="d"
         Title="TournamentDB_421_TyryshkinAD" 
         WindowStartupLocation="CenterScreen"
         MinHeight="450" MinWidth="800"
         Height="450" Width="800">
-    <Grid>
+
+    <Window.Resources>
+        <DataTemplate DataType="{x:Type viewmodels:PlayerViewModel}">
+            <views:PlayerView/>
+        </DataTemplate>
         
+        <BooleanToVisibilityConverter x:Key="IsNavDisabledConverter"/>
+    </Window.Resources>
+    
+    <Grid>
+        <StackPanel Visibility="{Binding IsNavDisabled, Converter={StaticResource IsNavDisabledConverter}}" 
+                    Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Button Content="Я игрок" Command="{Binding GoPlayerCommand}"/>
+            <Button Content="Я модератор" Command="{Binding GoViewerCommand}" Margin="10 0"/>
+            <Button Content="Я зритель" Command="{Binding GoModCommand}"/>
+        </StackPanel>
+
+        <ContentControl Content="{Binding CurrentViewModel}"/>
     </Grid>
 </Window>
