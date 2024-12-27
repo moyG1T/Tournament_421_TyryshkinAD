@@ -15,7 +15,7 @@
         </Grid.RowDefinitions>
 
         <StackPanel Orientation="Horizontal">
-            <Button Command="{Binding GoBackCommand}" Content="Назад" VerticalAlignment="Center" Margin="10 0"/>
+            <Button Command="{Binding GoBackCommand}" Background="OrangeRed" Content="Назад" VerticalAlignment="Center" Margin="10 0"/>
             <TextBlock Text="Поиск"/>
             <TextBox Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"/>
             <TextBlock Text="Формат" Margin="20 0 10 0"/>

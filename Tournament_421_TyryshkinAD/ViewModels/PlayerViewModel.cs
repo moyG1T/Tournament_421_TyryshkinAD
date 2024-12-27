@@ -74,6 +74,7 @@ namespace Tournament_421_TyryshkinAD.ViewModels
                     {
                         MessageBox.Show("Неверные данные");
                         passwordBox.Password = string.Empty;
+                        return;
                     }
 
                     Player = user;
