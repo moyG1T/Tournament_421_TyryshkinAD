@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Windows;
+using Tournament_421_TyryshkinAD.Data;
 using Tournament_421_TyryshkinAD.Domain.Contexts;
 using Tournament_421_TyryshkinAD.Domain.IServices;
 using Tournament_421_TyryshkinAD.Domain.Services;
@@ -16,6 +17,7 @@ namespace Tournament_421_TyryshkinAD
         {
             var services = new ServiceCollection();
 
+            services.AddSingleton<DbEntities>();
             services.AddSingleton<MainContext>();
 
             services.AddSingleton<MainWindow>();
@@ -29,7 +31,10 @@ namespace Tournament_421_TyryshkinAD
                     );
             });
 
-            services.AddTransient<PlayerViewModel>();
+            services.AddTransient<PlayerViewModel>(p =>
+            {
+                return new PlayerViewModel(p.GetRequiredService<DbEntities>());
+            });
 
             _provider = services.BuildServiceProvider();
         }

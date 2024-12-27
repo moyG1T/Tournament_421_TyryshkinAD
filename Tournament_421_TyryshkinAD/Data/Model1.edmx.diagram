@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="f5cd4352969a46469c216ae6cc593c35" Name="Diagram1">
+        <EntityTypeShape EntityType="DbModel.Access" Width="1.5" PointX="0.75" PointY="4.25" />
+        <EntityTypeShape EntityType="DbModel.Format" Width="1.5" PointX="3" PointY="1" />
+        <EntityTypeShape EntityType="DbModel.Game" Width="1.5" PointX="3" PointY="7.375" />
+        <EntityTypeShape EntityType="DbModel.Match" Width="1.5" PointX="7.5" PointY="3.75" />
+        <EntityTypeShape EntityType="DbModel.MatchPlayers" Width="1.5" PointX="9.75" PointY="3.75" />
+        <EntityTypeShape EntityType="DbModel.MatchViewed" Width="1.5" PointX="12.75" PointY="3.875" />
+        <EntityTypeShape EntityType="DbModel.Moderator" Width="1.5" PointX="3" PointY="3.75" />
+        <EntityTypeShape EntityType="DbModel.Player" Width="1.5" PointX="7.5" PointY="7.5" />
+        <EntityTypeShape EntityType="DbModel.Role" Width="1.5" PointX="7.5" PointY="11.625" />
+        <EntityTypeShape EntityType="DbModel.sysdiagrams" Width="1.5" PointX="0.75" PointY="9.875" />
+        <EntityTypeShape EntityType="DbModel.Team" Width="1.5" PointX="7.5" PointY="0.75" />
+        <EntityTypeShape EntityType="DbModel.TeamContent" Width="1.5" PointX="9.75" PointY="7.125" />
+        <EntityTypeShape EntityType="DbModel.Tournament" Width="1.5" PointX="5.25" PointY="3.375" />
+        <EntityTypeShape EntityType="DbModel.Viewer" Width="1.5" PointX="10.5" PointY="1.125" />
+        <AssociationConnector Association="DbModel.FK_Moderator_Access" />
+        <AssociationConnector Association="DbModel.FK_Tournament_Format" />
+        <AssociationConnector Association="DbModel.FK_Tournament_Game" />
+        <AssociationConnector Association="DbModel.FK_Match_Tournament" />
+        <AssociationConnector Association="DbModel.FK_MatchPlayers_Match" />
+        <AssociationConnector Association="DbModel.FK_MatchViewed_Match" />
+        <AssociationConnector Association="DbModel.FK_MatchPlayers_Player" />
+        <AssociationConnector Association="DbModel.FK_MatchPlayers_Team" />
+        <AssociationConnector Association="DbModel.FK_MatchViewed_Viewer" />
+        <AssociationConnector Association="DbModel.FK_Tournament_Moderator" />
+        <AssociationConnector Association="DbModel.FK_TeamContent_Player" />
+        <AssociationConnector Association="DbModel.FK_TeamContent_Role" />
+        <AssociationConnector Association="DbModel.FK_TeamContent_Team" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

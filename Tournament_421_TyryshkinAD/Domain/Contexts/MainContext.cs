@@ -11,7 +11,20 @@ namespace Tournament_421_TyryshkinAD.Domain.Contexts
     {
         private readonly Stack<ViewModel> _history = new Stack<ViewModel>();
 
-        public ViewModel CurrentViewModel => _history.Peek();
+        public ViewModel CurrentViewModel
+        {
+            get
+            {
+                if (_history.Count > 0)
+                {
+                    return _history.Peek();
+                }
+                else
+                {
+                    return null;
+                }
+            }
+        }
 
         public event Action ViewModelChanged;
 
