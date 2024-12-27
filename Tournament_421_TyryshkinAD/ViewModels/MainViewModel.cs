@@ -12,7 +12,7 @@ using Tournament_421_TyryshkinAD.Domain.Utilities;
 namespace Tournament_421_TyryshkinAD.ViewModels
 {
     public class MainViewModel : ViewModel
-    {//
+    {
         private readonly MainContext _mainContext;
 
         public ICommand GoViewerCommand { get; }
