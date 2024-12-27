@@ -6,12 +6,32 @@
              xmlns:local="clr-namespace:Tournament_421_TyryshkinAD.Views" xmlns:viewmodels="clr-namespace:Tournament_421_TyryshkinAD.ViewModels" d:DataContext="{d:DesignInstance Type=viewmodels:TourViewModel}"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="IsMultipleGameConverter"/>
+    </UserControl.Resources>
+
     <Grid>
-        <StackPanel Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0 10">
-            <TextBlock Text="{Binding Tournament.Title}"/>
-            <TextBlock Text="{Binding Tournament.Title}"/>
-            <TextBlock Text="{Binding Tournament.Title}"/>
-            <TextBlock Text="{Binding Tournament.Title}"/>
+        <StackPanel Orientation="Vertical" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0 10">
+            <TextBlock Text="{Binding Tournament.Title}" TextTrimming="CharacterEllipsis" HorizontalAlignment="Left" Margin="0"/>
+            <TextBlock Text="{Binding Tournament.Format.Title}" Margin="0 10" HorizontalAlignment="Left"/>
+            <TextBlock Text="{Binding Tournament.StartTimestamp, StringFormat={}{0:dd MMM. yyyy HH:mm}, ConverterCulture=ru}" Margin="0" HorizontalAlignment="Left"/>
+            <TextBlock Text="{Binding Tournament.PrizePool, StringFormat={}Пул - {0} руб., ConverterCulture=ru}" Margin="0 10" HorizontalAlignment="Left"/>
+
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" 
+                        Visibility="{Binding IsMultipleGame, Converter={StaticResource IsMultipleGameConverter}}">
+                <TextBlock Text="Мои команды"/>
+                <ComboBox SelectedItem="{Binding SelectedTeam}"
+                          ItemsSource="{Binding Teams}"
+                          DisplayMemberPath="Title"
+                          IsEditable="True"
+                          Margin="0 10"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <Button Content="Назад" Background="OrangeRed" Command="{Binding GoBackCommand}" Margin="0 0 10 0" HorizontalAlignment="Center"/>
+                <Button Command="{Binding RegistCommand}" Content="Записаться" HorizontalAlignment="Center"/>
+            </StackPanel>
         </StackPanel>
     </Grid>
 </UserControl>

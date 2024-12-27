@@ -139,7 +139,11 @@
     <Compile Include="Data\Tournament.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Data\TourTeam.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Data\Tracks\Player.cs" />
+    <Compile Include="Data\Tracks\Tournament.cs" />
     <Compile Include="Data\Viewer.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>

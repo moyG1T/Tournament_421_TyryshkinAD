@@ -38,11 +38,15 @@ namespace Tournament_421_TyryshkinAD
             });
             services.AddTransient<CreateTeamViewModel>(p =>
             {
-                return new CreateTeamViewModel(BackOnlyFactory(p), p.GetRequiredService<DbEntities>());
+                return new CreateTeamViewModel(CreateTeamFactory(p), p.GetRequiredService<DbEntities>());
             });
             services.AddTransient<SelectTourViewModel>(p =>
             {
-                return new SelectTourViewModel(BackOnlyFactory(p), p.GetRequiredService<TourContext>(), p.GetRequiredService<DbEntities>());
+                return new SelectTourViewModel(TourFactory(p), p.GetRequiredService<TourContext>(), p.GetRequiredService<DbEntities>());
+            });
+            services.AddTransient<TourViewModel>(p =>
+            {
+                return new TourViewModel(BackOnlyFactory(p), p.GetRequiredService<TourContext>(), p.GetRequiredService<DbEntities>());
             });
 
             _provider = services.BuildServiceProvider();

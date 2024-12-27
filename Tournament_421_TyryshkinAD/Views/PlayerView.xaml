@@ -26,19 +26,23 @@
                         <PasswordBox Name="MyPasswordBox"/>
                     </StackPanel>
 
-                    <Button Content="Войти" 
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <Button Command="{Binding ExitCommand}" Margin="0 0 10 0" Content="Назад" Background="OrangeRed"/>
+                        <Button Content="Войти" 
                             Command="{Binding LoginCommand}"
                             CommandParameter="{Binding ElementName=MyPasswordBox}"
                             HorizontalAlignment="Center"/>
+                    </StackPanel>
                 </StackPanel>
             </Border>
 
             <TextBlock Text="{Binding Player.Nickname, StringFormat={}Добро пожаловать {0}}" 
                        Visibility="{Binding IsLogged, Converter={StaticResource IsLoggedConverter}}" HorizontalAlignment="Center"/>
-            
+
             <StackPanel Visibility="{Binding IsLogged, Converter={StaticResource IsLoggedConverter}}" Orientation="Horizontal">
                 <Button Command="{Binding CreateTeamCommand}" Content="Создать команду"/>
                 <Button Command="{Binding SelectTourCommand}" Content="Выбрать турнир" Margin="10 0"/>
+                <Button Command="{Binding ExitCommand}" Content="Выйти" Background="OrangeRed" Margin="0 0"/>
             </StackPanel>
         </StackPanel>
     </Grid>

@@ -38,6 +38,7 @@ namespace Tournament_421_TyryshkinAD.Data
         public virtual DbSet<Team> Team { get; set; }
         public virtual DbSet<TeamContent> TeamContent { get; set; }
         public virtual DbSet<Tournament> Tournament { get; set; }
+        public virtual DbSet<TourTeam> TourTeam { get; set; }
         public virtual DbSet<Viewer> Viewer { get; set; }
     }
 }

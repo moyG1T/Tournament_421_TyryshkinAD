@@ -6,6 +6,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using Tournament_421_TyryshkinAD.Data;
 using Tournament_421_TyryshkinAD.Domain.Commands;
+using Tournament_421_TyryshkinAD.Domain.Contexts;
 using Tournament_421_TyryshkinAD.Domain.IServices;
 using Tournament_421_TyryshkinAD.Domain.Utilities;
 using Tournament_421_TyryshkinAD.Properties;
@@ -37,11 +38,13 @@ namespace Tournament_421_TyryshkinAD.ViewModels
         public ICommand LoginCommand { get; }
         public ICommand CreateTeamCommand { get; }
         public ICommand SelectTourCommand { get; }
+        public ICommand ExitCommand { get; }
 
         public PlayerViewModel(INavService createTeam, INavService selectTour, DbEntities entities)
         {
             CreateTeamCommand = new NavCommand(createTeam);
             SelectTourCommand = new NavCommand(selectTour);
+            ExitCommand = new GoBackCommand(createTeam);
 
             LoginCommand = new RelayAsyncCommand(LoginAsync);
 

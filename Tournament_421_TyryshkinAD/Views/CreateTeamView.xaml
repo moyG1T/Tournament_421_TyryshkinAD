@@ -45,7 +45,7 @@
                         <StackPanel Orientation="Vertical" HorizontalAlignment="Center"/>
                     </ItemsPanelTemplate>
                 </ItemsControl.ItemsPanel>
-                
+
                 <ItemsControl.Template>
                     <ControlTemplate>
                         <ScrollViewer HorizontalScrollBarVisibility="Disabled">
@@ -54,7 +54,10 @@
                     </ControlTemplate>
                 </ItemsControl.Template>
             </ItemsControl>
-            <Button Content="Создать" Command="{Binding CreateTeamCommand}" HorizontalAlignment="Center"/>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <Button Content="Отмена" Background="OrangeRed" Command="{Binding GoBackCommand}" Margin="0 0 10 0" HorizontalAlignment="Center"/>
+                <Button Content="Создать" Command="{Binding CreateTeamCommand}" HorizontalAlignment="Center"/>
+            </StackPanel>
         </StackPanel>
     </Grid>
 </UserControl>

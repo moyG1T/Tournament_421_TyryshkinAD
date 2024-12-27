@@ -9,6 +9,7 @@ using Tournament_421_TyryshkinAD.Domain.Commands;
 using Tournament_421_TyryshkinAD.Domain.Contexts;
 using Tournament_421_TyryshkinAD.Domain.IServices;
 using Tournament_421_TyryshkinAD.Domain.Utilities;
+using Tournament_421_TyryshkinAD.Properties;
 
 namespace Tournament_421_TyryshkinAD.ViewModels
 {
@@ -30,6 +31,8 @@ namespace Tournament_421_TyryshkinAD.ViewModels
             }
         }
 
+        private int _userId;
+
         private Format _selectedFormat;
         public Format SelectedFormat
         {
@@ -50,25 +53,37 @@ namespace Tournament_421_TyryshkinAD.ViewModels
             {
                 if (string.IsNullOrEmpty(SearchText) && SelectedFormat is null)
                 {
-                    return _originTours;
+                    var list = _originTours;
+
+                    list.ForEach(it => it.IsMember = it.TourTeam.Select(tt => tt.PlayerId).Contains(_userId));
+
+                    return list;
                 }
                 else if (string.IsNullOrEmpty(SearchText) && SelectedFormat != null)
                 {
-                    return _originTours.Where(it => it.FormatId == SelectedFormat.Id).ToList();
+                    var list = _originTours.Where(it => it.FormatId == SelectedFormat.Id).ToList();
+
+                    list.ForEach(it => it.IsMember = it.TourTeam.Select(tt => tt.PlayerId).Contains(_userId));
+
+                    return list;
                 }
                 else if (!string.IsNullOrEmpty(SearchText) && SelectedFormat is null)
                 {
-                    return _originTours
+                    var list = _originTours
                         .Where(it => it.Title.ToLower().Contains(SearchText.ToLower())
                             || it.PrizePool.ToString().ToLower().Contains(SearchText.ToLower())
                             || it.Game.Title.ToLower().Contains(SearchText.ToLower())
                             || it.Format.Title.ToLower().Contains(SearchText.ToLower())
                             )
                         .ToList();
+
+                    list.ForEach(it => it.IsMember = it.TourTeam.Select(tt => tt.PlayerId).Contains(_userId));
+
+                    return list;
                 }
                 else
                 {
-                    return _originTours
+                    var list = _originTours
                         .Where(it => it.Title.ToLower().Contains(SearchText.ToLower())
                             || it.PrizePool.ToString().ToLower().Contains(SearchText.ToLower())
                             || it.Game.Title.ToLower().Contains(SearchText.ToLower())
@@ -79,24 +94,34 @@ namespace Tournament_421_TyryshkinAD.ViewModels
                             it.FormatId == SelectedFormat.Id
                             )
                         .ToList();
+
+                    list.ForEach(it => it.IsMember = it.TourTeam.Select(tt => tt.PlayerId).Contains(_userId));
+
+                    return list;
                 }
             }
         }
 
         public ICommand RemoveFormatFilterCommand { get; }
         public ICommand SelectTourCommand { get; }
+        public ICommand GoBackCommand { get; }
 
-        public SelectTourViewModel(INavService tour, TourContext tourContext, DbEntities entities)
+        public SelectTourViewModel(INavService tour, TourContext tourContext,  DbEntities entities)
         {
+            _userId = Settings.Default.UserId;
             _tour = tour;
             _tourContext = tourContext;
             _entities = entities;
 
             Formats = _entities.Format.ToList();
-            _originTours = _entities.Tournament.ToList();
+
+            var list = _entities.Tournament.ToList();
+            list.ForEach(it => it.IsMember = it.TourTeam.Select(tt => tt.PlayerId).Contains(_userId));
+            _originTours = list;
 
             RemoveFormatFilterCommand = new RelayCommand(RemoveFormatFilter);
             SelectTourCommand = new RelayCommand(SelectTour);
+            GoBackCommand = new GoBackCommand(tour);
         }
 
         private void RemoveFormatFilter()

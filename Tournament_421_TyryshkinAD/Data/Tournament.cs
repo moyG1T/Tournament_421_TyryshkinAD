@@ -18,6 +18,7 @@ namespace Tournament_421_TyryshkinAD.Data
         public Tournament()
         {
             this.Match = new HashSet<Match>();
+            this.TourTeam = new HashSet<TourTeam>();
         }
     
         public int Id { get; set; }
@@ -34,5 +35,7 @@ namespace Tournament_421_TyryshkinAD.Data
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Match> Match { get; set; }
         public virtual Moderator Moderator { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<TourTeam> TourTeam { get; set; }
     }
 }

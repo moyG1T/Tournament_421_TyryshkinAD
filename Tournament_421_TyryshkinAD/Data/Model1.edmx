@@ -123,6 +123,16 @@
           <Property Name="GameId" Type="int" Nullable="false" />
           <Property Name="ModeratorId" Type="int" Nullable="false" />
         </EntityType>
+        <EntityType Name="TourTeam">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TourId" Type="int" Nullable="false" />
+          <Property Name="TeamId" Type="int" Nullable="false" />
+          <Property Name="PlayerId" Type="int" Nullable="false" />
+          <Property Name="Timestamp" Type="datetime" Nullable="false" />
+        </EntityType>
         <EntityType Name="Viewer">
           <Key>
             <PropertyRef Name="Id" />
@@ -287,6 +297,42 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_TourTeam_Player">
+          <End Role="Player" Type="Self.Player" Multiplicity="1" />
+          <End Role="TourTeam" Type="Self.TourTeam" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Player">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TourTeam">
+              <PropertyRef Name="PlayerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TourTeam_Team">
+          <End Role="Team" Type="Self.Team" Multiplicity="1" />
+          <End Role="TourTeam" Type="Self.TourTeam" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Team">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TourTeam">
+              <PropertyRef Name="TeamId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TourTeam_Tournament">
+          <End Role="Tournament" Type="Self.Tournament" Multiplicity="1" />
+          <End Role="TourTeam" Type="Self.TourTeam" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tournament">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TourTeam">
+              <PropertyRef Name="TourId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="Хранилище DbModelContainer">
           <EntitySet Name="Access" EntityType="Self.Access" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Format" EntityType="Self.Format" Schema="dbo" store:Type="Tables" />
@@ -301,6 +347,7 @@
           <EntitySet Name="Team" EntityType="Self.Team" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TeamContent" EntityType="Self.TeamContent" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Tournament" EntityType="Self.Tournament" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TourTeam" EntityType="Self.TourTeam" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Viewer" EntityType="Self.Viewer" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_Match_Tournament" Association="Self.FK_Match_Tournament">
             <End Role="Tournament" EntitySet="Tournament" />
@@ -354,6 +401,18 @@
             <End Role="Moderator" EntitySet="Moderator" />
             <End Role="Tournament" EntitySet="Tournament" />
           </AssociationSet>
+          <AssociationSet Name="FK_TourTeam_Player" Association="Self.FK_TourTeam_Player">
+            <End Role="Player" EntitySet="Player" />
+            <End Role="TourTeam" EntitySet="TourTeam" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TourTeam_Team" Association="Self.FK_TourTeam_Team">
+            <End Role="Team" EntitySet="Team" />
+            <End Role="TourTeam" EntitySet="TourTeam" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TourTeam_Tournament" Association="Self.FK_TourTeam_Tournament">
+            <End Role="Tournament" EntitySet="Tournament" />
+            <End Role="TourTeam" EntitySet="TourTeam" />
+          </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
@@ -373,6 +432,7 @@
           <EntitySet Name="Team" EntityType="DbModel.Team" />
           <EntitySet Name="TeamContent" EntityType="DbModel.TeamContent" />
           <EntitySet Name="Tournament" EntityType="DbModel.Tournament" />
+          <EntitySet Name="TourTeam" EntityType="DbModel.TourTeam" />
           <EntitySet Name="Viewer" EntityType="DbModel.Viewer" />
           <AssociationSet Name="FK_Moderator_Access" Association="DbModel.FK_Moderator_Access">
             <End Role="Access" EntitySet="Access" />
@@ -418,6 +478,10 @@
             <End Role="Player" EntitySet="Player" />
             <End Role="TeamContent" EntitySet="TeamContent" />
           </AssociationSet>
+          <AssociationSet Name="FK_TourTeam_Player" Association="DbModel.FK_TourTeam_Player">
+            <End Role="Player" EntitySet="Player" />
+            <End Role="TourTeam" EntitySet="TourTeam" />
+          </AssociationSet>
           <AssociationSet Name="FK_TeamContent_Role" Association="DbModel.FK_TeamContent_Role">
             <End Role="Role" EntitySet="Role" />
             <End Role="TeamContent" EntitySet="TeamContent" />
@@ -425,6 +489,14 @@
           <AssociationSet Name="FK_TeamContent_Team" Association="DbModel.FK_TeamContent_Team">
             <End Role="Team" EntitySet="Team" />
             <End Role="TeamContent" EntitySet="TeamContent" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TourTeam_Team" Association="DbModel.FK_TourTeam_Team">
+            <End Role="Team" EntitySet="Team" />
+            <End Role="TourTeam" EntitySet="TourTeam" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TourTeam_Tournament" Association="DbModel.FK_TourTeam_Tournament">
+            <End Role="Tournament" EntitySet="Tournament" />
+            <End Role="TourTeam" EntitySet="TourTeam" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="Access">
@@ -512,6 +584,7 @@
           <Property Name="Surname" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="MatchPlayers" Relationship="DbModel.FK_MatchPlayers_Player" FromRole="Player" ToRole="MatchPlayers" />
           <NavigationProperty Name="TeamContent" Relationship="DbModel.FK_TeamContent_Player" FromRole="Player" ToRole="TeamContent" />
+          <NavigationProperty Name="TourTeam" Relationship="DbModel.FK_TourTeam_Player" FromRole="Player" ToRole="TourTeam" />
         </EntityType>
         <EntityType Name="Role">
           <Key>
@@ -539,6 +612,7 @@
           <Property Name="Title" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="MatchPlayers" Relationship="DbModel.FK_MatchPlayers_Team" FromRole="Team" ToRole="MatchPlayers" />
           <NavigationProperty Name="TeamContent" Relationship="DbModel.FK_TeamContent_Team" FromRole="Team" ToRole="TeamContent" />
+          <NavigationProperty Name="TourTeam" Relationship="DbModel.FK_TourTeam_Team" FromRole="Team" ToRole="TourTeam" />
         </EntityType>
         <EntityType Name="TeamContent">
           <Key>
@@ -569,6 +643,20 @@
           <NavigationProperty Name="Game" Relationship="DbModel.FK_Tournament_Game" FromRole="Tournament" ToRole="Game" />
           <NavigationProperty Name="Match" Relationship="DbModel.FK_Match_Tournament" FromRole="Tournament" ToRole="Match" />
           <NavigationProperty Name="Moderator" Relationship="DbModel.FK_Tournament_Moderator" FromRole="Tournament" ToRole="Moderator" />
+          <NavigationProperty Name="TourTeam" Relationship="DbModel.FK_TourTeam_Tournament" FromRole="Tournament" ToRole="TourTeam" />
+        </EntityType>
+        <EntityType Name="TourTeam">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TourId" Type="Int32" Nullable="false" />
+          <Property Name="TeamId" Type="Int32" Nullable="false" />
+          <Property Name="PlayerId" Type="Int32" Nullable="false" />
+          <Property Name="Timestamp" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Player" Relationship="DbModel.FK_TourTeam_Player" FromRole="TourTeam" ToRole="Player" />
+          <NavigationProperty Name="Team" Relationship="DbModel.FK_TourTeam_Team" FromRole="TourTeam" ToRole="Team" />
+          <NavigationProperty Name="Tournament" Relationship="DbModel.FK_TourTeam_Tournament" FromRole="TourTeam" ToRole="Tournament" />
         </EntityType>
         <EntityType Name="Viewer">
           <Key>
@@ -711,6 +799,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_TourTeam_Player">
+          <End Type="DbModel.Player" Role="Player" Multiplicity="1" />
+          <End Type="DbModel.TourTeam" Role="TourTeam" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Player">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TourTeam">
+              <PropertyRef Name="PlayerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_TeamContent_Role">
           <End Type="DbModel.Role" Role="Role" Multiplicity="1" />
           <End Type="DbModel.TeamContent" Role="TeamContent" Multiplicity="*" />
@@ -735,7 +835,31 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-      </Schema>
+        <Association Name="FK_TourTeam_Team">
+          <End Type="DbModel.Team" Role="Team" Multiplicity="1" />
+          <End Type="DbModel.TourTeam" Role="TourTeam" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Team">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TourTeam">
+              <PropertyRef Name="TeamId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TourTeam_Tournament">
+          <End Type="DbModel.Tournament" Role="Tournament" Multiplicity="1" />
+          <End Type="DbModel.TourTeam" Role="TourTeam" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tournament">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TourTeam">
+              <PropertyRef Name="TourId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
@@ -868,6 +992,17 @@
                 <ScalarProperty Name="EndTimestamp" ColumnName="EndTimestamp" />
                 <ScalarProperty Name="StartTimestamp" ColumnName="StartTimestamp" />
                 <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TourTeam">
+            <EntityTypeMapping TypeName="DbModel.TourTeam">
+              <MappingFragment StoreEntitySet="TourTeam">
+                <ScalarProperty Name="Timestamp" ColumnName="Timestamp" />
+                <ScalarProperty Name="PlayerId" ColumnName="PlayerId" />
+                <ScalarProperty Name="TeamId" ColumnName="TeamId" />
+                <ScalarProperty Name="TourId" ColumnName="TourId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

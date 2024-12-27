@@ -15,7 +15,7 @@
         </Grid.RowDefinitions>
 
         <StackPanel Orientation="Horizontal">
-            <Button Content="Назад" VerticalAlignment="Center" Margin="10 0"/>
+            <Button Command="{Binding GoBackCommand}" Content="Назад" VerticalAlignment="Center" Margin="10 0"/>
             <TextBlock Text="Поиск"/>
             <TextBox Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"/>
             <TextBlock Text="Формат" Margin="20 0 10 0"/>
@@ -35,19 +35,45 @@
                             <ColumnDefinition Width="50"/>
                             <ColumnDefinition Width="170"/>
                             <ColumnDefinition Width="170"/>
-                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="150"/>
                         </Grid.ColumnDefinitions>
 
                         <TextBlock Text="{Binding Title}" TextTrimming="CharacterEllipsis"/>
                         <TextBlock Grid.Column="1" Text="{Binding Format.Title}"/>
                         <TextBlock Grid.Column="2" Text="{Binding StartTimestamp, StringFormat={}{0:dd MMM. yyyy HH:mm}, ConverterCulture=ru}"/>
                         <TextBlock Grid.Column="3" Text="{Binding PrizePool, StringFormat={}Пул - {0} руб., ConverterCulture=ru}"/>
-                       
+
                         <Button 
                             Command="{Binding DataContext.SelectTourCommand,
                             RelativeSource={RelativeSource AncestorType=ItemsControl}}"
                             CommandParameter="{Binding}"
-                            Grid.Column="4" Content="Подробнее"/>
+                            Grid.Column="4" Content="Подробнее">
+                            <Button.Style>
+                                <Style TargetType="Button">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsMember}" Value="False">
+                                            <Setter Property="Visibility" Value="Visible"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
+                        </Button>
+
+                        <TextBlock Grid.Column="4" Text="Участник" Foreground="Red">
+                            <TextBlock.Style>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="FontSize" Value="18"/>
+                                    <Setter Property="VerticalAlignment" Value="Center"/>
+                                    <Setter Property="HorizontalAlignment" Value="Center"/>
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsMember}" Value="True">
+                                            <Setter Property="Visibility" Value="Visible"/>
+                                        </DataTrigger>
+                                    </Style.Triggers></Style>
+                            </TextBlock.Style>
+                        </TextBlock>
                     </Grid>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>

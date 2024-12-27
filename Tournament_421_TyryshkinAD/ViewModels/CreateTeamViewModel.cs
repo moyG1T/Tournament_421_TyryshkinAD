@@ -93,7 +93,16 @@ namespace Tournament_421_TyryshkinAD.ViewModels
 
                 var teamPlayers = new List<TeamContent>();
 
-                foreach (var player in Players)
+                var me = new TeamContent
+                {
+                    PlayerId = Settings.Default.UserId,
+                    TeamId = team.Id,
+                    RoleId = 1,
+                    Timestamp = DateTime.Now,
+                };
+                teamPlayers.Add(me);
+
+                foreach (var player in SelectedPlayers)
                 {
                     var teamPlayer = new TeamContent
                     {
