@@ -4,9 +4,11 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 using Tournament_421_TyryshkinAD.Data;
 using Tournament_421_TyryshkinAD.Domain.Commands;
+using Tournament_421_TyryshkinAD.Domain.IServices;
 using Tournament_421_TyryshkinAD.Domain.Utilities;
 using Tournament_421_TyryshkinAD.Properties;
 
@@ -36,15 +38,19 @@ namespace Tournament_421_TyryshkinAD.ViewModels
         }
 
 
-        public  ICommand AddPlayerCommand { get; }
-        public  ICommand RemovePlayerCommand { get; }
+        public ICommand AddPlayerCommand { get; }
+        public ICommand RemovePlayerCommand { get; }
+        public ICommand CreateTeamCommand { get; }
+        public ICommand GoBackCommand { get; }
 
-        public CreateTeamViewModel(DbEntities entities)
+        public CreateTeamViewModel(INavService back, DbEntities entities)
         {
             _entities = entities;
 
             AddPlayerCommand = new RelayCommand(AddPlayer);
             RemovePlayerCommand = new RelayCommand(RemovePlayer);
+            CreateTeamCommand = new RelayAsyncCommand(CreateTeam);
+            GoBackCommand = new GoBackCommand(back);
 
             var players = _entities.Player.Where(it => it.Id != Settings.Default.UserId).ToList();
             Players = new ObservableCollection<Player>(players);
@@ -66,6 +72,50 @@ namespace Tournament_421_TyryshkinAD.ViewModels
             {
                 Players.Add(player);
                 SelectedPlayers.Remove(player);
+            }
+        }
+        private async Task CreateTeam()
+        {
+            if (string.IsNullOrEmpty(Title) || SelectedPlayers.Count == 0)
+            {
+                MessageBox.Show("Пустые поля");
+                return;
+            }
+
+            try
+            {
+                var team = new Team
+                {
+                    Title = Title,
+                };
+                _entities.Team.Add(team);
+                await _entities.SaveChangesAsync();
+
+                var teamPlayers = new List<TeamContent>();
+
+                foreach (var player in Players)
+                {
+                    var teamPlayer = new TeamContent
+                    {
+                        PlayerId = player.Id,
+                        TeamId = team.Id,
+                        RoleId = 1,
+                        Timestamp = DateTime.Now,
+                    };
+
+                    teamPlayers.Add(teamPlayer);
+                }
+
+                _entities.TeamContent.AddRange(teamPlayers);
+                await _entities.SaveChangesAsync();
+
+                GoBackCommand.Execute(null);
+
+                MessageBox.Show("Команда создана");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
             }
         }
 

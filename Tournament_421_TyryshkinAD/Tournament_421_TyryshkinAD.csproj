@@ -143,12 +143,22 @@
     <Compile Include="Data\Viewer.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Domain\Commands\GoBackCommand.cs" />
+    <Compile Include="Domain\Contexts\TourContext.cs" />
     <Compile Include="ViewModels\CreateTeamViewModel.cs" />
+    <Compile Include="ViewModels\SelectTourViewModel.cs" />
+    <Compile Include="ViewModels\TourViewModel.cs" />
     <Compile Include="Views\CreateTeamView.xaml.cs">
       <DependentUpon>CreateTeamView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\PlayerView.xaml.cs">
       <DependentUpon>PlayerView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SelectTourView.xaml.cs">
+      <DependentUpon>SelectTourView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\TourView.xaml.cs">
+      <DependentUpon>TourView.xaml</DependentUpon>
     </Compile>
     <Page Include="Views\CreateTeamView.xaml">
       <SubType>Designer</SubType>
@@ -177,6 +187,14 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Views\PlayerView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SelectTourView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\TourView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

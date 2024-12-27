@@ -36,10 +36,13 @@ namespace Tournament_421_TyryshkinAD.ViewModels
 
         public ICommand LoginCommand { get; }
         public ICommand CreateTeamCommand { get; }
+        public ICommand SelectTourCommand { get; }
 
-        public PlayerViewModel(INavService createTeam, DbEntities entities)
+        public PlayerViewModel(INavService createTeam, INavService selectTour, DbEntities entities)
         {
             CreateTeamCommand = new NavCommand(createTeam);
+            SelectTourCommand = new NavCommand(selectTour);
+
             LoginCommand = new RelayAsyncCommand(LoginAsync);
 
             _entities = entities;
@@ -58,6 +61,7 @@ namespace Tournament_421_TyryshkinAD.ViewModels
                     if (string.IsNullOrEmpty(password) || string.IsNullOrEmpty(Player.Login))
                     {
                         MessageBox.Show("Пустые поля");
+                        return;
                     }
 
                     var user = await _entities.Player

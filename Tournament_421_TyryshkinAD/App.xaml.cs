@@ -19,6 +19,7 @@ namespace Tournament_421_TyryshkinAD
 
             services.AddSingleton<DbEntities>();
             services.AddSingleton<MainContext>();
+            services.AddSingleton<TourContext>();
 
             services.AddSingleton<MainWindow>();
             services.AddSingleton<MainViewModel>(p =>
@@ -33,11 +34,15 @@ namespace Tournament_421_TyryshkinAD
 
             services.AddTransient<PlayerViewModel>(p =>
             {
-                return new PlayerViewModel(CreateTeamFactory(p), p.GetRequiredService<DbEntities>());
+                return new PlayerViewModel(CreateTeamFactory(p), SelectTourFactory(p), p.GetRequiredService<DbEntities>());
             });
             services.AddTransient<CreateTeamViewModel>(p =>
             {
-                return new CreateTeamViewModel(p.GetRequiredService<DbEntities>());
+                return new CreateTeamViewModel(BackOnlyFactory(p), p.GetRequiredService<DbEntities>());
+            });
+            services.AddTransient<SelectTourViewModel>(p =>
+            {
+                return new SelectTourViewModel(BackOnlyFactory(p), p.GetRequiredService<TourContext>(), p.GetRequiredService<DbEntities>());
             });
 
             _provider = services.BuildServiceProvider();
@@ -60,6 +65,14 @@ namespace Tournament_421_TyryshkinAD
         protected MainNavService CreateTeamFactory(IServiceProvider p)
         {
             return new MainNavService(p.GetRequiredService<MainContext>(), p.GetRequiredService<CreateTeamViewModel>);
+        }
+        protected MainNavService SelectTourFactory(IServiceProvider p)
+        {
+            return new MainNavService(p.GetRequiredService<MainContext>(), p.GetRequiredService<SelectTourViewModel>);
+        }
+        protected MainNavService TourFactory(IServiceProvider p)
+        {
+            return new MainNavService(p.GetRequiredService<MainContext>(), p.GetRequiredService<TourViewModel>);
         }
         protected MainNavService BackOnlyFactory(IServiceProvider p)
         {

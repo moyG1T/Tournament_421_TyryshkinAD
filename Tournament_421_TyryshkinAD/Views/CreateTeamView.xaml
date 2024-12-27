@@ -22,24 +22,39 @@
 
             <Button Content="Выбрать игрока" Command="{Binding AddPlayerCommand}" HorizontalAlignment="Center"/>
 
-            <ItemsControl ItemsSource="{Binding SelectedPlayers}" Margin="10 0">
+            <ItemsControl ItemsSource="{Binding SelectedPlayers}" Margin="0 10">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="200"/>
-                                <ColumnDefinition Width="50"/>
+                                <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
 
-                            <TextBlock Text="{Binding Player.Nickname}"/>
-                            <Button Content="Убрать"
+                            <TextBlock Text="{Binding Nickname}"/>
+                            <Button Content="Убрать" Grid.Column="1"
                                     Command="{Binding DataContext.RemovePlayerCommand,
                                     RelativeSource={RelativeSource AncestorType=ItemsControl}}"
                                     CommandParameter="{Binding}"/>
                         </Grid>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
+
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Vertical" HorizontalAlignment="Center"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                
+                <ItemsControl.Template>
+                    <ControlTemplate>
+                        <ScrollViewer HorizontalScrollBarVisibility="Disabled">
+                            <ItemsPresenter/>
+                        </ScrollViewer>
+                    </ControlTemplate>
+                </ItemsControl.Template>
             </ItemsControl>
+            <Button Content="Создать" Command="{Binding CreateTeamCommand}" HorizontalAlignment="Center"/>
         </StackPanel>
     </Grid>
 </UserControl>

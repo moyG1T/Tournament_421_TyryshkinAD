@@ -20,6 +20,9 @@
         <DataTemplate DataType="{x:Type viewmodels:CreateTeamViewModel}">
             <views:CreateTeamView/>
         </DataTemplate>
+        <DataTemplate DataType="{x:Type viewmodels:SelectTourViewModel}">
+            <views:SelectTourView/>
+        </DataTemplate>
         
         <BooleanToVisibilityConverter x:Key="IsNavDisabledConverter"/>
     </Window.Resources>
